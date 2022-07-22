@@ -12,6 +12,7 @@ import com.google.gson.GsonBuilder;
 import org.bouncycastle.jce.ECNamedCurveTable;
 import org.bouncycastle.jce.spec.ECParameterSpec;
 
+import java.sql.Array;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -21,10 +22,11 @@ public class Wallet {
     public PrivateKey privateKey;
     public PublicKey publicKey;
     public HashMap<String, TransactionOutput> UTXOs = new HashMap<>();
-    public static ArrayList<String> wallets = new ArrayList<>();
+    public static ArrayList<Wallet> wallets = new ArrayList<>();
     Wallet(){
         generateKeyPair();
     }
+
     public void generateKeyPair() {
         try {
             SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
@@ -78,13 +80,18 @@ public class Wallet {
 
     public static void printWalletDetails(){
         int _wallet;
+        ArrayList<String> arr = new ArrayList<>();
+        for(int i=1; i<wallets.size()-1;i++){
+            arr.add("Wallet"+i);
+        }
         Scanner wallet = new Scanner(System.in);
         System.out.println("Which wallet you want to see?"+
-                " Available wallets:\n "+ wallets +"\n Choose index from [1-"+ wallets.size()+"]"
+                " Available wallets:\n "+ arr +"\n Choose index from [1-"+ wallets.size()+"]"
                 );
         _wallet = wallet.nextInt();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String walletToJson = gson.toJson(_wallet);
+        String walletToJson = gson.toJson(wallets.get(_wallet-1));
         System.out.println(walletToJson);
     }
+
 }

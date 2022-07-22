@@ -2,7 +2,7 @@
 //  Author: Jakub Adamczyk        ///
 //  mail: quba.adamczyk@icloud.com ///
 //  Blockchain Project              ///
-//  Class for a Data Structure        ///
+//  Transaction Input                 ///
 //////////////////////////////////////////
 
 /*An unspent transaction output (UTXO)
