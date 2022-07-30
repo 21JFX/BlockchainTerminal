@@ -60,8 +60,7 @@ public class algoUtils {
     public static String getStringFromKey(Key key){
         return Base64.getEncoder().encodeToString(key.getEncoded());
     }
-/*
-    public String getMerkleRoot(ArrayList<Transaction> transactions){
+    public static String getMerkleRoot(ArrayList<Transaction> transactions){
             int counter = transactions.size();
             ArrayList<String> previousTreeLayer = new ArrayList<String>();
             for(Transaction transaction: transactions){
@@ -80,5 +79,7 @@ public class algoUtils {
             return merkleRoot;
     }
 
- */
+    public static String getDificultyString(int difficulty) {
+        return new String(new char[difficulty]).replace('\0', '0');
+    }
 }

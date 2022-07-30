@@ -31,6 +31,7 @@ public class PlataoPlomo {
     public static Transaction genesisTransaction; //1st transaction in a blockchain
     private static String blockchainJson;
     public static int blockNumber;
+    public static int difficulty=3;
     static Gson gson= new GsonBuilder().setPrettyPrinting().create();
 
     public static void main(String [] args) {
@@ -42,28 +43,29 @@ public class PlataoPlomo {
         //genesis transaction
         genesisTransaction();
 
-        System.out.println("Genesis block created!");
+        System.out.println("\nGenesis block created!");
         Block genesis = new Block("0");
+        addBlock(genesis);
         genesis.addTransaction(genesisTransaction);
-        blockchain.add(genesis);
-        blockNumber++;
 
-        System.out.println("Wallet1 balance after genesis transaction: " + Wallet1.getBalance());
+
+
+        System.out.println("\nWallet1 balance after genesis transaction: " + Wallet1.getBalance());
 
         Block block1 = new Block(genesis.getHash());
+        addBlock(block1);
         block1.addTransaction(Wallet1.sendFunds(Wallet2.publicKey, 10f));
-        blockchain.add(block1);
-        blockNumber++;
 
-        System.out.println("Wallet2 ballance: " +Wallet2.getBalance());
+
+        System.out.println("\nWallet2 ballance: " +Wallet2.getBalance());
         System.out.println("Wallet1 ballance: " +Wallet1.getBalance());
 
         Block block2 = new Block(block1.getHash());
+        addBlock(block2);
         block2.addTransaction(Wallet1.sendFunds(Wallet2.publicKey, 300f));
-        blockchain.add(block2);
-        blockNumber++;
 
-        System.out.println("Wallet2 ballance: " +Wallet2.getBalance());
+
+        System.out.println("\nWallet2 ballance: " +Wallet2.getBalance());
         System.out.println("Wallet1 ballance: " +Wallet1.getBalance());
 
 
@@ -75,7 +77,11 @@ public class PlataoPlomo {
 
 
     }
-
+    public static void addBlock(Block newBlock){
+        newBlock.mineBlock(difficulty);
+        blockchain.add(newBlock);
+        blockNumber++;
+    }
     //FILE HANDLING METHODS
     public static void writeBlockchainToFile(){
         blockchainJson = gson.toJson(blockchain); //whole blockchain to json
